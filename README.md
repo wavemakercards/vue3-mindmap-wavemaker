@@ -6,8 +6,8 @@
 
 > Mindmap component for Vue3 inspired by [MindNode](https://mindnode.com)
 
-[live demo / 演示页面](https://5xin.xyz/vue3-mindmap)  
-[Directory Description / 目录说明](./Directory.md)
+[live demo / demo page](https://5xin.xyz/vue3-mindmap)  
+[Directory Description / Directory Description](./Directory.md)
 
 ## Install
 
@@ -19,22 +19,22 @@ npm install vue3-mindmap
 
 | Name         | Type                     | Default    | Description          |
 | ---          | ---                      | ---        | ---                  |
-| v-model      | Data[]                   | undefined  | 设置思维导图数据        |
-| x-gap        | Number                   | 84         | 设置节点横向间隔        |
-| y-gap        | Number                   | 18         | 设置节点纵向间隔        |
-| branch       | Number                   | 4          | 设置连线的宽度          |
-| scale-extent | [Number, Number]         | [0.1, 0.8] | 设置缩放范围           |
-| timetravel   | Boolean                  | false      | 是否显示撤销重做按钮     |
-| drag         | Boolean                  | false      | 设置节点是否可拖拽      |
-| zoom         | Boolean                  | false      | 是否可缩放、拖移        |
-| edit         | Boolean                  | false      | 是否可编辑             |
-| center-btn   | Boolean                  | false      | 是否显示居中按钮        |
-| fit-btn      | Boolean                  | false      | 是否显示缩放按钮        |
-| add-node-btn | Boolean                  | false      | 是否显示添加节点按钮     |
-| download-btn | Boolean                  | false      | 是否显示下载按钮        |
-| sharp-corner | Boolean                  | false      | 设置分支为圆角或直角     |
-| ctm          | Boolean                  | false      | 是否响应右键菜单        |
-| locale       | 'zh' \| 'en' \| 'ptBR'   | 'zh'       | i18n                  |
+| v-model | Data[] | undefined | set mind map data |
+| x-gap | Number | 84 | Set horizontal gap between nodes |
+| y-gap | Number | 18 | Set vertical gap between nodes |
+| branch | Number | 4 | set the line width |
+| scale-extent | [Number, Number] | [0.1, 0.8] | set zoom extent |
+| timetravel | Boolean | false | whether to display undo redo button |
+| drag | Boolean | false | Set whether the node can be dragged |
+| zoom | Boolean | false | Can zoom and drag |
+| edit | Boolean | false | whether editable |
+| center-btn | Boolean | false | Whether to display the center button |
+| fit-btn | Boolean | false | Whether to show the zoom button |
+| add-node-btn | Boolean | false | Whether to display the add node button |
+| download-btn | Boolean | false | Whether to display the download button |
+| sharp-corner | Boolean | false | set the corners to be rounded or straight |
+| ctm | Boolean | false | Whether to respond to the right-click menu |
+| local | 'zh' \| 'en' \| 'ptBR' | 'zh' | i18n |
 
 ## Example
 
@@ -51,10 +51,10 @@ export default defineComponent({
   components: { mindmap },
   setup () => {
     const data = [{
-      "name":"如何学习D3",
+      "name": "How to learn D3",
       "children": [
         {
-          "name":"预备知识",
+          "name": "preliminary knowledge",
           "children": [
             { "name":"HTML & CSS" },
             { "name":"JavaScript" },
@@ -62,9 +62,9 @@ export default defineComponent({
           ]
         },
         {
-          "name":"安装",
+          "name": "installation",
           "collapse": true,
-          "children": [ { "name": "折叠节点" } ]
+          "children": [ { "name": "folded node" } ]
         },
         { "name":"进阶", "left": true },
         ...
@@ -77,16 +77,16 @@ export default defineComponent({
 </script>
 ```
 
-## 注意
+## Notice
 
-- 当xGap小于一定数值，父节点的trigger由于添加按钮的存在可能遮挡住子节点的trigger，无法响应子节点的点击
+- When xGap is less than a certain value, the trigger of the parent node may block the trigger of the child node due to the existence of the add button, and cannot respond to the click of the child node
 
-## 待解决
+## to be solved
 
-- 直角分支radius
+- right angle branch radius
 
-## Todo
+## All
 
-- 多选节点
-- 多主节点
-- 更多节点样式
+- Multi-select nodes
+- Multi-master nodes
+- More node styles
