@@ -1,7 +1,7 @@
 {
-  "name": "vue3-mindmap-iw",
+  "name": "vue3-mindmap-wavemaker",
   "description": "Mindmap component for Vue3",
-  "author": "伍鑫",
+  "author": "wavemakercards",
   "license": "MIT",
   "files": [
     "dist"
@@ -15,7 +15,7 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "version": "0.5.14",
+  "version": "0.5.15",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
