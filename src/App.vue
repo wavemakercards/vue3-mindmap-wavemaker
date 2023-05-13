@@ -4,25 +4,13 @@
       <a href="https://github.com/hellowuxin/vue3-mindmap" target="_blank">GitHub</a>
     </div>
     <div class="right-top"><span>Props</span></div>
-    <mindmap
-      class="left-bottom"
-      v-model="data"
-      :branch="rangeList['branch'].value"
-      :x-gap="rangeList['x-gap'].value"
-      :y-gap="rangeList['y-gap'].value"
-      :zoom="checkboxList['zoom'].value"
-      :fit-btn="checkboxList['fit-btn'].value"
-      :center-btn="checkboxList['center-btn'].value"
-      :download-btn="checkboxList['download-btn'].value"
-      :drag="checkboxList['drag'].value"
-      :edit="checkboxList['edit'].value"
-      :add-node-btn="checkboxList['add-node-btn'].value"
-      :sharp-corner="checkboxList['sharp-corner'].value"
-      :ctm="checkboxList['contextmenu'].value"
-      :timetravel="checkboxList['timetravel'].value"
-      @update:model-value="onChange"
-      :locale="locale"
-    />
+    <mindmap class="left-bottom" v-model="data" :branch="rangeList['branch'].value" :x-gap="rangeList['x-gap'].value"
+      :y-gap="rangeList['y-gap'].value" :zoom="checkboxList['zoom'].value" :fit-btn="checkboxList['fit-btn'].value"
+      :center-btn="checkboxList['center-btn'].value" :download-btn="checkboxList['download-btn'].value"
+      :drag="checkboxList['drag'].value" :edit="checkboxList['edit'].value"
+      :add-node-btn="checkboxList['add-node-btn'].value" :sharp-corner="checkboxList['sharp-corner'].value"
+      :ctm="checkboxList['contextmenu'].value" :timetravel="checkboxList['timetravel'].value"
+      @update:model-value="onChange" :locale="locale" />
     <div class="right-bottom">
       <div>
         <label for="language-select">Language</label>
@@ -57,7 +45,7 @@ export default defineComponent({
   components: {
     Mindmap
   },
-  setup () {
+  setup() {
     const checkboxList = reactive<checkbox>({
       'center-btn': { value: true },
       'fit-btn': { value: true },
@@ -79,7 +67,7 @@ export default defineComponent({
     })
     const data = ref(learn)
     const onChange = () => console.log('update:model-value')
-    const locale = ref<Locale>('zh')
+    const locale = ref<Locale>('en')
 
     return {
       data,
@@ -97,9 +85,9 @@ export default defineComponent({
   width: 100%;
   height: calc(100vh - 16px);
   border-radius: 4px;
-  border: thin solid rgba(0,0,0,.12);
+  border: thin solid rgba(0, 0, 0, .12);
   overflow: hidden;
-  background-color: rgba(0,0,0,.12);
+  background-color: rgba(0, 0, 0, .12);
   display: grid;
   grid-template-columns: 75% 1px 25%;
   grid-template-rows: 48px 1px auto;
