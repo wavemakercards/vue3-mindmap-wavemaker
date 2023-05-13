@@ -19,12 +19,9 @@
       <button @click="prev" :class="{ [style['disabled']]: !hasPrev }"><i :class="style['prev']"></i></button>
       <button @click="next" :class="{ [style['disabled']]: !hasNext }"><i :class="style['next']"></i></button>
     </div>
-    <contextmenu
-      v-if="ctm"
-      :position="contextmenuPos"
-      :groups="menu"
-      @click-item="onClickMenu"
-    ></contextmenu>
+    <contextmenu v-if="ctm" :position="contextmenuPos" :groups="menu" @click-item="onClickMenu"
+      :contextText="contextText">
+    </contextmenu>
   </div>
 </template>
 
@@ -38,7 +35,7 @@ import { afterOperation, ImData, mmdata } from './data'
 import { hasNext, hasPrev } from './state'
 import { fitView, getSize, centerView, next, prev, download, bindForeignDiv } from './assistant'
 import { xGap, yGap, branch, scaleExtent, ctm, selection, changeSharpCorner, addNodeBtn, mmprops } from './variable'
-import { wrapperEle, svgEle, gEle, asstSvgEle, foreignEle, foreignDivEle  } from './variable/element'
+import { wrapperEle, svgEle, gEle, asstSvgEle, foreignEle, foreignDivEle } from './variable/element'
 import { draw } from './draw'
 import { switchZoom, switchEdit, switchSelect, switchContextmenu, switchDrag, onClickMenu } from './listener'
 import Contextmenu from '../Contextmenu.vue'
@@ -52,6 +49,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   props: {
+    contextText: { type: Object },
     modelValue: {
       type: Array as PropType<Data[]>,
       required: true
@@ -62,7 +60,7 @@ export default defineComponent({
     branch: {
       type: Number,
       default: branch,
-      validator: (val: number) => val >= 1 && val <= 6 
+      validator: (val: number) => val >= 1 && val <= 6
     },
     scaleExtent: {
       type: Object as PropType<TwoNumber>,
@@ -83,7 +81,7 @@ export default defineComponent({
     // i18n
     locale: { type: String as PropType<Locale>, default: 'zh' }
   },
-  setup (props, context) {
+  setup(props, context) {
     // 立即执行
     watchEffect(() => i18next.changeLanguage(props.locale))
     watchEffect(() => emitter.emit('scale-extent', props.scaleExtent))
@@ -100,7 +98,7 @@ export default defineComponent({
       emitter.emit('selection-svg', d3.select(svgEle.value))
       emitter.emit('selection-g', d3.select(gEle.value))
       emitter.emit('selection-asstSvg', d3.select(asstSvgEle.value))
-      emitter.emit('selection-foreign',d3.select(foreignEle.value))
+      emitter.emit('selection-foreign', d3.select(foreignEle.value))
       emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize))
 
       changeSharpCorner.value = false

@@ -10,7 +10,7 @@
       :drag="checkboxList['drag'].value" :edit="checkboxList['edit'].value"
       :add-node-btn="checkboxList['add-node-btn'].value" :sharp-corner="checkboxList['sharp-corner'].value"
       :ctm="checkboxList['contextmenu'].value" :timetravel="checkboxList['timetravel'].value"
-      @update:model-value="onChange" :locale="locale" />
+      @update:model-value="onChange" :locale="locale" :contextText="contextText" />
     <div class="right-bottom">
       <div>
         <label for="language-select">Language</label>
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import learn from './learn.json'
+import contextLang from './contextLang.json'
 import { defineComponent, reactive, ref } from 'vue'
 import Mindmap from './components/Mindmap'
 import { Locale } from './components/Mindmap/interface'
@@ -66,11 +67,13 @@ export default defineComponent({
       'y-gap': { value: 18, min: 0, max: 100 }
     })
     const data = ref(learn)
+    const contextText = ref(contextLang)
     const onChange = () => console.log('update:model-value')
     const locale = ref<Locale>('en')
 
     return {
       data,
+      contextText,
       checkboxList,
       rangeList,
       onChange,

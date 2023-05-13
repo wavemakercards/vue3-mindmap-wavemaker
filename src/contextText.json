@@ -1,0 +1,17 @@
+{
+    "collapse": "Collapse this node",
+    "expand": "Expand from here",
+    "delete": "Delete Node",
+    "delete-one": "Delete a single node",
+    "add": "Add Child node",
+    "add-parent": "Add Parent node",
+    "add-sibling": "Add Sibling node",
+    "add-sibling-before": "Add Sibling node before",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "selectall": "Select all",
+    "zoomin": "Zoom in",
+    "zoomout": "Zoom out",
+    "zoomfit": "Zoom fit"
+}

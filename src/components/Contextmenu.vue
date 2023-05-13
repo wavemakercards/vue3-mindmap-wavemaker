@@ -4,7 +4,7 @@
     <div ref="menuEle" :id="style['menu']" :style="{ top: pos.top + 'px', left: pos.left + 'px' }">
       <ul v-for="(group, index) in groups" :key="index">
         <li :class="item.disabled ? style['disabled'] : ''" v-for="item in group" :key="item.name"
-          @click="onClick(item.name)">{{ i18n.t(`contextmenu.${item.name}`) }}</li>
+          @click="onClick(item.name)">{{ contextText[item.name] }}</li>
       </ul>
     </div>
   </div>
@@ -19,6 +19,26 @@ import i18n from '../i18n'
 export default defineComponent({
   name: 'contextmenu',
   props: {
+    contextText: {
+      type: Object,
+      default: {
+        "collapse": "Collapse this node",
+        "expand": "Expand from here",
+        "delete": "Delete Node",
+        "delete-one": "Delete a single node",
+        "add": "Add Child node",
+        "add-parent": "Add Parent node",
+        "add-sibling": "Add Sibling node",
+        "add-sibling-before": "Add Sibling node before",
+        "cut": "Cut",
+        "copy": "Copy",
+        "paste": "Paste",
+        "selectall": "Select all",
+        "zoomin": "Zoom in",
+        "zoomout": "Zoom out",
+        "zoomfit": "Zoom fit"
+      }
+    },
     position: {
       default: { top: 0, left: 0 }
     },
