@@ -6,16 +6,16 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-mindmap.umd.js",
-  "module": "./dist/vue3-mindmap.es.js",
+  "main": "./dist/vue3-mindmap-wavemaker.umd.js",
+  "module": "./dist/vue3-mindmap-wavemaker.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vue3-mindmap.es.js",
-      "require": "./dist/vue3-mindmap.umd.js"
+      "import": "./dist/vue3-mindmap-wavemaker.es.js",
+      "require": "./dist/vue3-mindmap-wavemaker.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "version": "0.5.17",
+  "version": "0.5.18",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
