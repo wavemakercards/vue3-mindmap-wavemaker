@@ -36,6 +36,30 @@ npm install vue3-mindmap
 | ctm | Boolean | false | Whether to respond to the right-click menu |
 | local | 'zh' \| 'en' \| 'ptBR' | 'zh' | i18n |
 
+Added contextTxt prop that provides the text for the context menu so you can handle language changes yourself
+Just provide this with your altered text to the mindmap and it will be passed down to the context menu
+
+```js
+contextTxt = {
+    "collapse": "Collapse this node",
+    "expand": "Expand from here",
+    "delete": "Delete Node",
+    "delete-one": "Delete a single node",
+    "add": "Add Child node",
+    "add-parent": "Add Parent node",
+    "add-sibling": "Add Sibling node",
+    "add-sibling-before": "Add Sibling node before",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "selectall": "Select all",
+    "zoomin": "Zoom in",
+    "zoomout": "Zoom out",
+    "zoomfit": "Zoom fit"
+}
+
+```
+
 ## Example
 
 ```html
