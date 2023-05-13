@@ -1,21 +1,21 @@
 {
-  "name": "vue3-mindmap-wavemaker",
+  "name": "vue3-mindmap-ou",
   "description": "Mindmap component for Vue3",
   "author": "wavemakercards",
   "license": "MIT",
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-mindmap-wavemaker.umd.js",
-  "module": "./dist/vue3-mindmap-wavemaker.es.js",
+  "main": "./dist/vue3-mindmap-ou.umd.js",
+  "module": "./dist/vue3-mindmap-ou.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vue3-mindmap-wavemaker.es.js",
-      "require": "./dist/vue3-mindmap-wavemaker.umd.js"
+      "import": "./dist/vue3-mindmap-ou.es.js",
+      "require": "./dist/vue3-mindmap-ou.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "version": "0.5.18",
+  "version": "0.5.19",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
