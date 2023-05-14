@@ -86,10 +86,10 @@ const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsM
   const gContent = enterG.append('g').attr('class', style.content)
   const gTrigger = gContent.append('rect')
   // 绘制文本
-  const gText = gContent.append('g').attr('class', style.text)
+  const gText = gContent.append('g').attr('class', style.text).attr("tabindex", 0)
 
   const gTextRect = gText.append('rect')
-  const text = gText.append('text').attr("tabindex", -1)
+  const text = gText.append('text')
   attrText(text)
   const tspan = text.selectAll('tspan').data(getTspanData).enter().append('tspan')
   attrTspan(tspan)

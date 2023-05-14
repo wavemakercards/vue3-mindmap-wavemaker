@@ -68,8 +68,9 @@ export function onEdit(this: SVGGElement, _e: MouseEvent, d: Mdata): void {
 }
 
 export const onEditBlur = (): void => {
+  let mytarget = document.getElementsByClassName("Mindmap_selected_fgvb6")[0]?.getElementsByClassName("Mindmap_content_fgvb6")[0]?.getElementsByClassName("Mindmap_text_fgvb6")[0]
   document.getElementsByClassName(style.edited)[0]?.classList.remove(style.edited, style.selected)
-
+  mytarget.focus()
   if (foreignEle.value && foreignDivEle.value) {
     foreignEle.value.style.display = 'none'
     const id = foreignEle.value.getAttribute('data-id')
