@@ -1,9 +1,9 @@
 import { TspanData, Mdata, SelectionG, IsMdata } from '@/components/Mindmap/interface'
 import * as d3 from '../d3'
 import { attrA, attrAddBtnRect, attrExpandBtnCircle, attrExpandBtnRect, attrG, attrPath, attrText, attrTspan, getSiblingGClass, getTspanData } from '../attribute'
-import { getAddPath, makeTransition } from '../assistant'
+import { getAddPath, makeTransition, getSelectedGData } from '../assistant'
 import { addBtnRect, addNodeBtn, drag, mmprops, selection } from '../variable'
-import { mmdata } from '../data'
+import { mmdata, expand, del } from '../data'
 import { addAndEdit, onClickExpandBtn, onEdit, onMouseEnter, onMouseLeave, onSelect } from '../listener'
 import style from '../css'
 
@@ -50,6 +50,7 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
   if (mmprops.value.drag || mmprops.value.edit) {
     const gText = g.select<SVGGElement>(`:scope > g.${style.content} > g.${style.text}`)
     gText.on('mousedown', onSelect)
+    gText.on('focus', onSelect)
     if (mmprops.value.drag && !isRoot) { drag(gText) }
     if (mmprops.value.edit) { gText.on('click', onEdit) }
   }
@@ -57,6 +58,21 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
     g.select<SVGGElement>(`:scope > g.${style.content}`)
       .on('mouseenter', onMouseEnter)
       .on('mouseleave', onMouseLeave)
+      .on('keydown', (e) => {
+        console.log(e.key)
+        switch (e.key) {
+          case '+': {
+            e.stopPropagation()
+            e.preventDefault()
+            addAndEdit(new MouseEvent('click'), getSelectedGData()); break
+          }
+          case '-': del(getSelectedGData().id); break
+          case '*': expand(getSelectedGData().id); break
+        }
+
+        // appendNode()
+      })
+
   }
 }
 
@@ -71,8 +87,9 @@ const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsM
   const gTrigger = gContent.append('rect')
   // 绘制文本
   const gText = gContent.append('g').attr('class', style.text)
+
   const gTextRect = gText.append('rect')
-  const text = gText.append('text')
+  const text = gText.append('text').attr("tabindex", -1)
   attrText(text)
   const tspan = text.selectAll('tspan').data(getTspanData).enter().append('tspan')
   attrTspan(tspan)
