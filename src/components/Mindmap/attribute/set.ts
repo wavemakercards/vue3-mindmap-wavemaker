@@ -15,16 +15,16 @@ export const attrA = (
   gAddBtn?: SelectionG
 ): void => {
   if (isRoot) {
-      attrTrigger(gTrigger, rootTextRectPadding)
-      attrTextRect(gTextRect, rootTextRectPadding, rootTextRectRadius)
-      attrExpandBtn(gExpandBtn, rootTextRectPadding)
-      if (gAddBtn) { attrAddBtn(gAddBtn, rootTextRectPadding) }
-    } else {
-      attrTrigger(gTrigger, textRectPadding)
-      attrTextRect(gTextRect, textRectPadding)
-      attrExpandBtn(gExpandBtn, textRectPadding)
-      if (gAddBtn) { attrAddBtn(gAddBtn, textRectPadding) }
-    }
+    attrTrigger(gTrigger, rootTextRectPadding)
+    attrTextRect(gTextRect, rootTextRectPadding, rootTextRectRadius)
+    attrExpandBtn(gExpandBtn, rootTextRectPadding)
+    if (gAddBtn) { attrAddBtn(gAddBtn, rootTextRectPadding) }
+  } else {
+    attrTrigger(gTrigger, textRectPadding)
+    attrTextRect(gTextRect, textRectPadding)
+    attrExpandBtn(gExpandBtn, textRectPadding)
+    if (gAddBtn) { attrAddBtn(gAddBtn, textRectPadding) }
+  }
 }
 
 export const attrG = (g: SelectionG, tran?: Transition): void => {
@@ -54,7 +54,7 @@ export const attrAddBtnRect = (rect: SelectionRect): void => {
 }
 
 export const attrExpandBtnRect = (rect: SelectionRect): void => {
-  rect.attr('x', -expandBtnRect.width/2).attr('y', -expandBtnRect.height/2)
+  rect.attr('x', -expandBtnRect.width / 2).attr('y', -expandBtnRect.height / 2)
     .attr('width', expandBtnRect.width).attr('height', expandBtnRect.height)
     .attr('rx', expandBtnRect.radius).attr('ry', expandBtnRect.radius)
     .attr('stroke', (d) => d.color || 'grey')
@@ -111,7 +111,7 @@ export const attrPath = (
   }
 }
 
-function pathTween (data: Mdata, index: number, paths: ArrayLike<SVGPathElement>) {
+function pathTween(data: Mdata, index: number, paths: ArrayLike<SVGPathElement>) {
   const precision = 10
   const d = getPath(data)
   const path0 = paths[index]

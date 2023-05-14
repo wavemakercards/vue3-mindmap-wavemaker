@@ -84,6 +84,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+body {
+  background-color: #efefef;
+}
+
 .container {
   width: 100%;
   height: calc(100vh - 16px);

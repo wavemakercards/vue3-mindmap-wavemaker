@@ -49,12 +49,13 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   props: {
+    defaultScale: { type: Number, default: 5 },
     contextText: { type: Object },
     modelValue: {
       type: Array as PropType<Data[]>,
       required: true
     },
-    // 绘制所需的变量
+    // plot the desired variables
     xGap: { type: Number, default: xGap },
     yGap: { type: Number, default: yGap },
     branch: {
@@ -67,7 +68,7 @@ export default defineComponent({
       default: scaleExtent
     },
     sharpCorner: Boolean,
-    // 操作许可
+    // Permission to operate
     centerBtn: Boolean,
     fitBtn: Boolean,
     downloadBtn: Boolean,
@@ -82,7 +83,7 @@ export default defineComponent({
     locale: { type: String as PropType<Locale>, default: 'zh' }
   },
   setup(props, context) {
-    // 立即执行
+    // execute immediately
     watchEffect(() => i18next.changeLanguage(props.locale))
     watchEffect(() => emitter.emit('scale-extent', props.scaleExtent))
     watchEffect(() => emitter.emit('branch', props.branch))
@@ -107,7 +108,7 @@ export default defineComponent({
       foreign?.raise()
       bindForeignDiv()
       fitView()
-      // mousedown与drag/zoom绑定的先后顺序会有影响
+      // The binding order of mousedown and drag/zoom will affect
       svg?.on('mousedown', () => {
         const oldSele = document.getElementsByClassName(style.selected)[0]
         oldSele?.classList.remove(style.selected)
