@@ -1,9 +1,9 @@
 import { TspanData, Mdata, SelectionG, IsMdata } from '@/components/Mindmap/interface'
 import * as d3 from '../d3'
 import { attrA, attrAddBtnRect, attrExpandBtnCircle, attrExpandBtnRect, attrG, attrPath, attrText, attrTspan, getSiblingGClass, getTspanData } from '../attribute'
-import { getAddPath, makeTransition, getSelectedGData } from '../assistant'
+import { getAddPath, makeTransition } from '../assistant'
 import { addBtnRect, addNodeBtn, drag, mmprops, selection } from '../variable'
-import { mmdata, expand, del } from '../data'
+import { mmdata } from '../data'
 import { addAndEdit, onClickExpandBtn, onEdit, onMouseEnter, onMouseLeave, onSelect } from '../listener'
 import style from '../css'
 
@@ -50,7 +50,6 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
   if (mmprops.value.drag || mmprops.value.edit) {
     const gText = g.select<SVGGElement>(`:scope > g.${style.content} > g.${style.text}`)
     gText.on('mousedown', onSelect)
-    gText.on('focus', onSelect)
     if (mmprops.value.drag && !isRoot) { drag(gText) }
     if (mmprops.value.edit) { gText.on('click', onEdit) }
   }
@@ -58,21 +57,6 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
     g.select<SVGGElement>(`:scope > g.${style.content}`)
       .on('mouseenter', onMouseEnter)
       .on('mouseleave', onMouseLeave)
-      .on('keydown', (e) => {
-        console.log(e.key)
-        switch (e.key) {
-          case '+': {
-            e.stopPropagation()
-            e.preventDefault()
-            addAndEdit(new MouseEvent('click'), getSelectedGData()); break
-          }
-          case '-': del(getSelectedGData().id); break
-          case '*': expand(getSelectedGData().id); break
-        }
-
-        // appendNode()
-      })
-
   }
 }
 

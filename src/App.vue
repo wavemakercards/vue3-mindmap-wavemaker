@@ -1,143 +1,109 @@
 <template>
   <div class="container">
-    <div class="left-top">
-      <a href="https://github.com/hellowuxin/vue3-mindmap" target="_blank">GitHub</a>
-    </div>
-    <div class="right-top"><span>Props</span></div>
-    <mindmap class="left-bottom" v-model="data" :branch="rangeList['branch'].value" :x-gap="rangeList['x-gap'].value"
-      :y-gap="rangeList['y-gap'].value" :zoom="checkboxList['zoom'].value" :fit-btn="checkboxList['fit-btn'].value"
-      :center-btn="checkboxList['center-btn'].value" :download-btn="checkboxList['download-btn'].value"
-      :drag="checkboxList['drag'].value" :edit="checkboxList['edit'].value"
-      :add-node-btn="checkboxList['add-node-btn'].value" :sharp-corner="checkboxList['sharp-corner'].value"
-      :ctm="checkboxList['contextmenu'].value" :timetravel="checkboxList['timetravel'].value"
-      @update:model-value="onChange" :locale="locale" :contextText="contextText" />
-    <div class="right-bottom">
-      <div>
-        <label for="language-select">Language</label>
-        <select id="language-select" v-model="locale">
-          <option value="zh">简体中文</option>
-          <option value="en">English</option>
-          <option value="ptBR">Brazilian Portuguese</option>
-        </select>
-      </div>
-      <div v-for="(item, key) in checkboxList" :key="key">
-        <input type="checkbox" :name="key.toString()" v-model="item.value" :disabled="item.disabled">
-        <label :for="key.toString()">{{ key }}</label>
-      </div>
-      <div v-for="(item, key) in rangeList" :key="key">
-        <input type="range" :name="key" v-model.number="item.value" :min="item.min" :max="item.max">
-        <label :for="key">{{ key }}（{{ item.value }}）</label>
-      </div>
+    <mindmap class="left-bottom" v-model="MMdata" :branch="options.branch" :x-gap="options.xgap" :y-gap="options.ygap"
+      :zoom="options.zoom" :fit-btn="options.fitbtn" :center-btn="options.centerbtn" :download-btn="options.downloadbtn"
+      :drag="options.drag" :edit="options.edit" :add-node-btn="options.addnodebtn" :sharp-corner="options.sharpcorner"
+      :ctm="options.contextmenu" :timetravel="options.timetravel" @update:model-value="onChange"
+      :contextText="contextText" @handleEmit="dostuff" :key="updateKey" />
+  </div>
+  <div class="inputform">
+    <div v-if="updateObj">
+
+      <input type="text" v-model="updateObj.name" />
+      <textarea v-model="updateObj.info"></textarea>
+      <hr />
+      <button @click="doUpdate">Save</button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import learn from './learn.json'
 import contextLang from './contextLang.json'
-import { defineComponent, reactive, ref } from 'vue'
 import Mindmap from './components/Mindmap'
-import { Locale } from './components/Mindmap/interface'
 
-type checkbox = { [key: string]: { value: boolean, disabled?: boolean } }
-
-export default defineComponent({
+export default {
   name: 'App',
   components: {
     Mindmap
   },
-  setup() {
-    const checkboxList = reactive<checkbox>({
-      'center-btn': { value: true },
-      'fit-btn': { value: true },
-      timetravel: { value: true },
-      'download-btn': { value: true },
-      'add-node-btn': { value: true },
-      keyboard: { value: false, disabled: true },
-      zoom: { value: true },
-      drag: { value: true },
-      edit: { value: true },
-      contextmenu: { value: true },
-      'sharp-corner': { value: false },
-      vertical: { value: false, disabled: true }
-    })
-    const rangeList = reactive({
-      branch: { value: 4, min: 1, max: 6 },
-      'x-gap': { value: 84, min: 0, max: 100 },
-      'y-gap': { value: 18, min: 0, max: 100 }
-    })
-    const data = ref(learn)
-    const contextText = ref(contextLang)
-    const onChange = () => console.log('update:model-value')
-    const locale = ref<Locale>('en')
-
+  data() {
     return {
-      data,
-      contextText,
-      checkboxList,
-      rangeList,
-      onChange,
-      locale
+      MMdata: learn,
+      contextText: contextLang,
+      lang: "en",
+      updateKey: 1,
+      updateObj: null,
+      options: {
+        branch: 4,
+        xgap: 84,
+        ygap: 18,
+        centerbtn: true,
+        fitbtn: true,
+        timetravel: true,
+        downloadbtn: true,
+        addnodebtn: true,
+        keyboard: false,
+        zoom: true,
+        drag: true,
+        edit: true,
+        contextmenu: true,
+        sharpcorner: false,
+        vertical: false,
+      }
+    }
+  },
+  methods: {
+    doUpdate() {
+      this.updateKey++
+    },
+    dostuff(v) {
+      console.log("dostuff")
+      if (!v) {
+        this.updateObj = v
+        console.log("nulled")
+        return false
+      }
+      //this.MMdata[0].name = "boom"
+      let arr = v.id.split("-")
+      let tObj = this.MMdata
+
+      arr.forEach((i, l) => {
+        if (arr.length === l + 1) {
+          tObj = tObj[i]
+        } else {
+          tObj = tObj[i].children
+        }
+        console.log(tObj)
+        this.updateObj = tObj
+      })
+    },
+    onChange() {
+      console.log("Change", this.MMdata)
     }
   }
-})
+}
 </script>
 
-<style lang="scss">
+<style >
 body {
   background-color: #efefef;
 }
 
+.inputform {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 320px;
+  background-color: black;
+}
+
 .container {
-  width: 100%;
-  height: calc(100vh - 16px);
-  border-radius: 4px;
-  border: thin solid rgba(0, 0, 0, .12);
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, .12);
-  display: grid;
-  grid-template-columns: 75% 1px 25%;
-  grid-template-rows: 48px 1px auto;
-}
-
-.right-top {
-  grid-column: 3 / 4;
-}
-
-.left-bottom {
-  grid-row: 3 / 4;
-}
-
-.right-bottom {
-  grid-column: 3 / 4;
-  grid-row: 3 / 4;
-  background-color: white;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow: scroll;
-
-  div {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-}
-
-.left-top,
-.right-top {
-  background-color: #eee;
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-}
-
-input[type='checkbox'] {
-  cursor: pointer;
-}
-
-input:disabled {
-  cursor: not-allowed;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 320px;
 }
 </style>

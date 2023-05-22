@@ -27,8 +27,6 @@ export function onMouseLeave(this: SVGGElement): void {
   if (temp) { temp.style.opacity = '0' }
 }
 
-
-
 export const onZoomMove = (e: d3.D3ZoomEvent<SVGSVGElement, null>): void => {
   const { g } = selection
   if (!g) { return }
@@ -37,6 +35,7 @@ export const onZoomMove = (e: d3.D3ZoomEvent<SVGSVGElement, null>): void => {
 }
 
 export const onSelect = (e: MouseEvent, d: Mdata): void => {
+  emitter.emit('node-selected', d)
   e.stopPropagation()
   selectGNode(d)
 }
@@ -48,6 +47,7 @@ export const onSelect = (e: MouseEvent, d: Mdata): void => {
 export function onEdit(this: SVGGElement, _e: MouseEvent, d: Mdata): void {
   const gNode = this.parentNode?.parentNode as SVGGElement
   const { foreign } = selection
+
   if (editFlag && foreign && foreignDivEle.value) {
     gNode.classList.add(style.edited)
     emitter.emit('edit-flag', false)
@@ -65,12 +65,14 @@ export function onEdit(this: SVGGElement, _e: MouseEvent, d: Mdata): void {
       moveView(gContent)
     }
   }
+
 }
 
 export const onEditBlur = (): void => {
-  let mytarget = document.getElementsByClassName("Mindmap_selected_fgvb6")[0]?.getElementsByClassName("Mindmap_content_fgvb6")[0]?.getElementsByClassName("Mindmap_text_fgvb6")[0]
+  //let mytarget = document.getElementsByClassName("Mindmap_selected_fgvb6")[0]?.getElementsByClassName("Mindmap_content_fgvb6")[0]?.getElementsByClassName("Mindmap_text_fgvb6")[0]
   document.getElementsByClassName(style.edited)[0]?.classList.remove(style.edited, style.selected)
-  mytarget.focus()
+  //mytarget.focus()
+
   if (foreignEle.value && foreignDivEle.value) {
     foreignEle.value.style.display = 'none'
     const id = foreignEle.value.getAttribute('data-id')
@@ -80,6 +82,7 @@ export const onEditBlur = (): void => {
       rename(id, name)
     }
   }
+
 }
 
 export const onContextmenu = (e: MouseEvent): void => {

@@ -40,14 +40,14 @@ import { draw } from './draw'
 import { switchZoom, switchEdit, switchSelect, switchContextmenu, switchDrag, onClickMenu } from './listener'
 import Contextmenu from '../Contextmenu.vue'
 import { cloneDeep } from 'lodash'
-import i18next from '../../i18n'
+
 
 export default defineComponent({
   name: 'Mindmap',
   components: {
     Contextmenu
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'handleEmit'],
   props: {
     defaultScale: { type: Number, default: 5 },
     contextText: { type: Object },
@@ -79,12 +79,10 @@ export default defineComponent({
     keyboard: Boolean,
     ctm: Boolean,
     zoom: Boolean,
-    // i18n
-    locale: { type: String as PropType<Locale>, default: 'zh' }
+    locale: { type: String as PropType<Locale>, default: 'en' }
   },
   setup(props, context) {
     // execute immediately
-    watchEffect(() => i18next.changeLanguage(props.locale))
     watchEffect(() => emitter.emit('scale-extent', props.scaleExtent))
     watchEffect(() => emitter.emit('branch', props.branch))
     watchEffect(() => emitter.emit('sharp-corner', props.sharpCorner))
@@ -93,6 +91,11 @@ export default defineComponent({
     watchEffect(() => addNodeBtn.value = props.edit && props.addNodeBtn)
     watchEffect(() => mmprops.value.drag = props.drag)
     watchEffect(() => mmprops.value.edit = props.edit)
+
+    function handleChange(val: any) {
+      context.emit('handleEmit', val)
+    }
+
     // onMounted
     onMounted(() => {
       if (!svgEle.value || !gEle.value || !asstSvgEle.value || !foreignEle.value || !foreignDivEle.value) { return }
@@ -101,7 +104,7 @@ export default defineComponent({
       emitter.emit('selection-asstSvg', d3.select(asstSvgEle.value))
       emitter.emit('selection-foreign', d3.select(foreignEle.value))
       emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize))
-
+      emitter.on('node-selected', (val) => { handleChange(val) })
       changeSharpCorner.value = false
       afterOperation()
       const { svg, foreign } = selection
@@ -112,11 +115,15 @@ export default defineComponent({
       svg?.on('mousedown', () => {
         const oldSele = document.getElementsByClassName(style.selected)[0]
         oldSele?.classList.remove(style.selected)
+        handleChange(null)
       })
       switchZoom(props.zoom)
       switchContextmenu(props.ctm)
     })
+
     // watch
+
+
     watch(() => [props.branch, addNodeBtn.value, props.sharpCorner], () => {
       draw()
       changeSharpCorner.value = false
@@ -132,6 +139,17 @@ export default defineComponent({
     })
     watch(() => props.zoom, (val) => switchZoom(val))
     watch(() => props.ctm, (val) => switchContextmenu(val))
+
+    // added this to make sure changes to the v-model are applied!!
+    // but it breaks the drag to left for some reason
+    /*
+        watch(() => props.modelValue, () => {
+          emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize))
+          draw()
+        }, {
+          deep: true
+        })
+    */
 
     return {
       wrapperEle,

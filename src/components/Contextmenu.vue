@@ -14,7 +14,7 @@
 import { defineComponent, useCssModule, PropType, ref, Ref, nextTick, reactive } from 'vue'
 import emitter from '@/mitt'
 import { MenuItem } from './Mindmap/variable/contextmenu'
-import i18n from '../i18n'
+
 
 export default defineComponent({
   name: 'contextmenu',
@@ -76,8 +76,7 @@ export default defineComponent({
       onClick,
       menuEle,
       containerEle,
-      pos,
-      i18n
+      pos
     }
   }
 })
